@@ -6,11 +6,9 @@ background: black
 I have come to talk with you again!
 
 
-<code>
+```c
 <#include stdio.h>
-
 int main(){
 return 21;
-
 }
-</code>
+```
