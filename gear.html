@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button1 {background-color: #4CAF50;} /* Green */
+.button2 {background-color: #008CBA;} /* Blue */
+</style>
+</head>
+<body>
+
+<h1 align='center'>齿轮参数计算</h1>
+
+<br/>
+
+<p align='center'>
+<label for="cse" align='left'>齿数:</label>
+<input align='right' type="number" id="cse" name="cse">
+</p>
+
+<p align='center'>
+<label for="mse">模数:</label>
+<input type="number" id="mse" name="mse">
+</p>
+
+<p align='center'>
+<label for="ylje">压力角:</label>
+<input type="decimal" id="ylje" name="ylje">
+</p>
+
+<p align='center'>
+<label for="lxje">螺旋角:</label>
+<input type="decimal" id="lxje" name="lxje">
+</p>
+
+
+<p align='center'>
+<label for="bwxse">变位系数:</label>
+<input type="decimal" id="bwxse" name="bwxse">
+</p>
+
+<div align='center'>
+<button class="button button1" onclick="clearFunction()">清空</button>
+<button class="button button2" onclick="calculateFunction()">计算</button>
+</div>
+
+<p align='center'>
+<label for="cde">长度:</label>
+<input type="decimal" id="cde" name="cde">
+</p>
+
+<p align='center'>
+<label for="kccse">跨测齿数:</label>
+<input type="decimal" id="kccse" name="kccse">
+</p>
+
+
+
+<script>
+function clearFunction() {
+	items = ['cse','ylje','mse','lxje','bwxse','cde','kccse'];
+	var i;
+	for(i=0;i<items.length;i++){
+		document.getElementById(items[i]).value = '';
+	}
+  
+}
+
+function calculateFunction() {
+var isPre = true;
+items = ['cse','mse','ylje','lxje','bwxse'];
+	for(i=0;i<items.length;i++){
+		if(document.getElementById(items[i]).value==''){
+			alert('请输入必要参数！');
+			isPre=false;
+			break;
+		}
+	}
+	
+	if(!isPre){
+	return;
+	}
+	
+	var cs = document.getElementById('cse').value;
+	var ms = document.getElementById('mse').value;
+	var ylj = document.getElementById('ylje').value;
+	var lxj = document.getElementById('lxje').value;
+	var bwxs = document.getElementById('bwxse').value;
+	
+	var csp=cs*(Math.tan(ylj*Math.PI/180)/Math.cos(lxj*Math.PI/180)-Math.atan(Math.tan(ylj*Math.PI/180)/Math.cos(lxj*Math.PI/180)))/(Math.tan(ylj*Math.PI/180)-ylj*Math.PI/180);
+    var yljp=Math.acos(csp*Math.cos(ylj*Math.PI/180)/(csp+2*bwxs));
+	
+	var kcs = Math.round((csp * yljp /Math.PI) + 0.5);
+    var cd = ms * Math.cos(ylj * Math.PI / 180) * (Math.PI * (kcs - 0.5) + (Math.tan(ylj * Math.PI / 180) - ylj * Math.PI / 180) * csp)+2*bwxs*ms*Math.sin(ylj*Math.PI/180);
+	document.getElementById('cde').value = cd;
+	document.getElementById('kccse').value = kcs;
+}
+</script>
+
+</body>
+</html>
